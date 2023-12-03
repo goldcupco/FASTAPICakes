@@ -1,11 +1,15 @@
 # FASTAPICakes
 
 Below is a comprehensive listing of all the code, including the FastAPI script, PyTest test cases, and Docker-related files. Additionally, I've included installation steps and implementation details.
-Installation
-Step 1: Install Python and Setup Virtual Environment
-# Install Python (skip if already installed)
-# Visit https://www.python.org/downloads/
-# Follow the installation instructions
+This comprehensive guide covers installation, FastAPI script, PyTest test cases, Docker setup, and Kubernetes deployment for the Cake API.
+
+
+
+# Installation
+# Step 1 Install Python and Setup Virtual Environment
+ Install Python (skip if already installed)
+ Visit https://www.python.org/downloads/
+ Follow the installation instructions
 
 # Install virtualenv
 pip install virtualenv
@@ -18,14 +22,14 @@ source venv/bin/activate
 # On Windows
 .\venv\Scripts\activate
 
-Step 2: Install FastAPI, Uvicorn, and PyTest
+# Step 2: Install FastAPI, Uvicorn, and PyTest
 # Install FastAPI and Uvicorn
 pip install fastapi uvicorn
 
 # Install PyTest
 pip install pytest
 
-FastAPI Script (main.py) as follows :
+# FastAPI Script (main.py) 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
@@ -74,12 +78,14 @@ def delete_cake(cake_id: int):
             return deleted_cake
     raise HTTPException(status_code=404, detail="Cake not found")
 
-# Include OpenAPI documentation
+""" 
+Include OpenAPI documentation
+"""
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info", reload=True)
 
-PyTest Test Cases (test_main.py) as follows :
+# PyTest Test Cases (test_main.py)
 import json
 from fastapi.testclient import TestClient
 from main import app
@@ -119,25 +125,24 @@ def test_delete_cake():
         "yumFactor": 5
     }
 
-Docker Setup
+# Docker Setup
 Dockerfile (Dockerfile) as follows :
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
 
 COPY ./app /app
 
 
-Running the Application
+# Running the Application
 Run FastAPI Locally as follows :
 uvicorn main:app --reload
 
 
-Access OpenAPI documentation: http://127.0.0.1:8000/docs
+# Access OpenAPI documentation: http://127.0.0.1:8000/docs
 
-Run PyTest
+# Run PyTest
 pytest
 
 
-Build and Run Docker Container :
 # Build Docker image
 docker build -t cake-api .
 
@@ -145,8 +150,8 @@ docker build -t cake-api .
 docker run -d -p 80:80 cake-api
 
 
-Kubernetes Setup
-Kubernetes Deployment (deployment.yaml) :
+# Kubernetes Setup
+# Kubernetes Deployment (deployment.yaml) :
 
 apiVersion: apps/v1
 kind: Deployment
@@ -169,7 +174,7 @@ spec:
         - containerPort: 80
 
 
-Kubernetes Service (service.yaml)
+# Kubernetes Service (service.yaml)
 apiVersion: v1
 kind: Service
 metadata:
@@ -184,7 +189,7 @@ spec:
   type: LoadBalancer
 
 
-Apply Kubernetes Manifests :
+# Apply Kubernetes Manifests
 
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
@@ -194,7 +199,6 @@ kubectl get service cake-api-service
 
 Access the API using the assigned external IP.
 
-This comprehensive guide covers installation, FastAPI script, PyTest test cases, Docker setup, and Kubernetes deployment for the Cake API.
 
 
 
